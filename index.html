@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+
+   follow the tutorial
+   
+    @link: https://space.bilibili.com/391870178
+  
+    
+ -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旋转立方体</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* display: flex;
+            justify-content: center;
+            align-items: center; */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .my-box {
+            height: 200px;
+            width: 200px;
+            /* position: relative; */
+            position: absolute;
+            top: calc(50% - 100px);
+            left: calc(50% - 100px);
+            transform: rotateX(30deg) rotateY(30deg) rotateZ(10deg);
+            transform-style: preserve-3d;
+            transform-origin: 50% 50% 100px;
+            /* animation: myrotate 5s ease-in-out infinite; */
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .my-box::after {
+            content: '';
+            position: relative;
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            font-size: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box-1 {
+            background-color: rgba(124, 77, 255, .5);
+            box-shadow: 0 0 100px 10px rgba(124, 77, 255, .5);
+            left: 0;
+            top: 0;
+        }
+
+        .box-2 {
+            background-color: rgba(194, 24, 91, .5);
+            box-shadow: 0 0 100px 10px rgba(194, 24, 91, .5);
+            left: -100%;
+            top: 0;
+            transform-origin: right;
+            transform: rotateY(90deg);
+        }
+
+        .box-3 {
+            background-color: rgba(224, 64, 251, .5);
+            box-shadow: 0 0 100px 10px rgba(224, 64, 251, .5);
+            left: 0;
+            top: 100%;
+            transform-origin: top;
+            transform: rotateX(90deg);
+        }
+
+        .box-4 {
+            background-color: rgba(68, 138, 255, .5);
+            box-shadow: 0 0 100px 10px rgba(68, 138, 255, .5);
+            left: 100%;
+            top: 0;
+            transform-origin: left;
+            transform: rotateY(-90deg);
+        }
+
+        .box-5 {
+            background-color: rgba(76, 175, 80, .5);
+            box-shadow: 0 0 100px 10px rgba(76, 175, 80, .5);
+            left: 0;
+            top: -100%;
+            transform-origin: bottom;
+            transform: rotateX(-90deg);
+        }
+
+        .box-6 {
+            background-color: rgba(255, 235, 59, .5);
+            box-shadow: 0 0 100px 10px rgba(255, 235, 59, .5);
+            left: 0;
+            top: 0;
+            transform: translateZ(200px);
+        }
+
+        @keyframes myrotate {
+            0% {
+                transform: rotateX(0) rotateY(0) rotateZ(0);
+            }
+
+            100% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="my-box">
+        <div class="box box-1">1</div>
+        <div class="box box-2">2</div>
+        <div class="box box-3">3</div>
+        <div class="box box-4">4</div>
+        <div class="box box-5">5</div>
+        <div class="box box-6">6</div>
+    </div>
+
+    <script>
+        const myBox = document.querySelector('.my-box');
+
+        // 拖拽
+        document.addEventListener('mousedown', function (event) {
+            // myBox.style.cssText += `animation-play-state: paused;`;
+            myBox.style.cssText += `animation: none;`;
+
+            const oldX = event.clientX;
+            const oldY = event.clientY;
+
+            this.onmousemove = function (e) {
+                const newX = e.clientX;
+                const newY = e.clientY;
+
+                myBox.style.cssText += `
+                    transform: rotateX(${-(newY - oldY)}deg) rotateY(${newX - oldX}deg);
+                `;
+            };
+
+            this.onmouseup = function () {
+                this.onmousemove = null;
+                myBox.style.cssText += `animation: myrotate 5s ease-in-out infinite;`;
+                // myBox.style.cssText += `animation-play-state: running;`;
+            }
+        });
+
+        // 移动
+        myBox.addEventListener('mousedown', function (event) {
+            event.stopPropagation();
+            const self = this;
+
+            const getPositionWidthBoundary = (minX, minY, maxX, maxY, nowX, nowY) => {
+                if (nowX < minX) nowX = minX;
+                if (nowY < minY) nowY = minY;
+                if (nowX > maxX) nowX = maxX;
+                if (nowY > maxY) nowY = maxY;
+                return {
+                    x: nowX,
+                    y: nowY
+                };
+            };
+
+            document.onmousemove = function (e) {
+
+                const {
+                    x,
+                    y
+                } = getPositionWidthBoundary(
+                    0,
+                    0,
+                    this.body.offsetWidth - self.offsetWidth,
+                    this.body.offsetHeight - self.offsetHeight,
+                    e.clientX - event.offsetX,
+                    e.clientY - event.offsetY
+                );
+
+                myBox.style.cssText += `
+                    top: ${y}px;
+                    left: ${x}px;
+                `;
+            };
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        });
+    </script>
+</body>
+
+</html>
