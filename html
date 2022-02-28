@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .my-box{
+            height: 200px;
+            width: 200px;
+            position: relative;
+            transform: rotateX(45deg) rotateY(45deg) rotateZ(0);
+            transform-style: preserve-3d;
+            transform-origin: center center;
+            animation: myrotate 5s ease-in-out infinite;
+        }
+
+        .box{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            font-size: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box-1{
+            background-color: rgba(124, 77, 255, .5);
+            left: 0;
+            top: 0;
+        }
+        .box-2{
+            background-color: rgba(194, 24, 91, .5);
+            left: -100%;
+            top: 0;
+            transform-origin: right;
+            transform: rotateY(90deg);
+        }
+        .box-3{
+            background-color: rgba(224, 64, 251, .5);
+            left: 0;
+            top: 100%;
+            transform-origin: top;
+            transform: rotateX(90deg);
+        }
+        .box-4{
+            background-color: rgba(68, 138, 255, .5);
+            left: 100%;
+            top: 0;
+            transform-origin: left;
+            transform: rotateY(-90deg);
+        }
+        .box-5{
+            background-color: rgba(76, 175, 80, .5);
+            left: 0;
+            top: -100%;
+            transform-origin: bottom;
+            transform: rotateX(-90deg);
+        }
+        .box-6{
+            background-color: rgba(255, 235, 59, .5);
+            left: 0;
+            top: 0;
+            transform: translateZ(200px);
+        }
+
+        @keyframes myrotate {
+            0%{
+                transform: rotateX(0) rotateY(0) rotateZ(0) translateZ(-100px);
+            }100%{
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg) translateZ(-100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="my-box">
+        <div class="box box-1">1</div>
+        <div class="box box-2">2</div>
+        <div class="box box-3">3</div>
+        <div class="box box-4">4</div>
+        <div class="box box-5">5</div>
+        <div class="box box-6">6</div>
+    </div>
+</body>
+</html>
